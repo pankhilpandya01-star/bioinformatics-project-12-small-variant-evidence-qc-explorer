@@ -24,11 +24,12 @@
   authorship markers.
 - [x] README, methods, limitations, provenance, references, license, result
   reviews, portfolio links, and GitHub Actions workflow are present.
+- [x] The exact 176-file publication set was reviewed and committed locally;
+  it contains no unignored native data files or files over 10 MB.
 
 ## Requires publication authorization
 
 - [ ] Create the GitHub repository with the intended public name.
-- [ ] Review the exact Git file list and commit locally.
 - [ ] Push the repository.
 - [ ] Confirm the first GitHub Actions run passes on Python 3.12.
 - [ ] Verify the README dashboard, badges, and internal links on GitHub.
