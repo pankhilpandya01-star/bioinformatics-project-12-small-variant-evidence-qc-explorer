@@ -1,0 +1,16 @@
+metric,value,unit
+retained_pairs,5082209,pairs
+primary_records,10164418,reads
+mapped_records,9400402,reads
+mapped_percent,92.48,percent
+proper_pair_records,9182716,reads
+proper_pairs,4591358,pairs
+proper_pair_percent,90.34,percent
+samtools_coverage_percent,92.3891,percent
+samtools_mean_depth,202.245,depth
+quality_filtered_mean_depth,191.297470,depth
+quality_filtered_covered_positions,4227030,positions
+quality_filtered_covered_percent,91.067361,percent
+quality_filtered_positions_ge_10,4202781,positions
+quality_filtered_positions_ge_10_percent,90.544940,percent
+quality_filtered_max_depth,1426,depth

@@ -1,0 +1,18 @@
+{
+  "COMMAND": "samtools markdup --no-PG -@ 1 -c -s --json -f ./reports/markdup.json ./intermediate/position_sorted.bam ./intermediate/marked.bam",
+  "READ": 10164418,
+  "WRITTEN": 10164418,
+  "EXCLUDED": 764016,
+  "EXAMINED": 9400402,
+  "PAIRED": 9296012,
+  "SINGLE": 104390,
+  "DUPLICATE PAIR": 1206484,
+  "DUPLICATE SINGLE": 70236,
+  "DUPLICATE PAIR OPTICAL": 0,
+  "DUPLICATE SINGLE OPTICAL": 0,
+  "DUPLICATE NON PRIMARY": 0,
+  "DUPLICATE NON PRIMARY OPTICAL": 0,
+  "DUPLICATE PRIMARY TOTAL": 1276720,
+  "DUPLICATE TOTAL": 1276720,
+  "ESTIMATED_LIBRARY_SIZE": 16321154
+}

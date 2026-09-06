@@ -1,0 +1,3 @@
+@HD	VN:1.6	SO:coordinate
+@SQ	SN:control	LN:2000
+@RG	ID:controlled_rg	SM:controlled	LB:controlled_library	PL:ILLUMINA

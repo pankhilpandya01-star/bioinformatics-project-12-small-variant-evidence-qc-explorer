@@ -1,0 +1,12 @@
+metric,value,unit
+positions,4641652,positions
+mean_depth,165.58744451328965,depth
+median_depth,171.0,depth
+covered_positions,4226661,positions
+covered_percent,91.05941160604026,percent
+positions_ge_minimum,4200885,positions
+percent_ge_minimum,90.50409207756204,percent
+high_depth_threshold,513,depth
+callable_positions,4199245,positions
+callable_percent,90.46875982947451,percent
+maximum_depth,1223,depth

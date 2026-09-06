@@ -1,0 +1,243 @@
+{
+  "workflow_version": "0.1.0",
+  "milestone": "variant_calling_and_evidence_filtering",
+  "tools": {
+    "python": "3.12.14",
+    "samtools": "1.24",
+    "bcftools": "1.24"
+  },
+  "parameters": {
+    "sample_id": "controlled",
+    "ploidy": 1,
+    "minimum_mapq": 20,
+    "minimum_base_quality": 20,
+    "minimum_depth": 10,
+    "minimum_alt_depth": 5,
+    "minimum_alt_fraction": 0.8,
+    "minimum_variant_quality": 30.0,
+    "minimum_alt_strand_depth": 1,
+    "maximum_depth_factor": 3.0,
+    "threads": 1
+  },
+  "inputs": {
+    "reference": {
+      "filename": "reference.fasta",
+      "sha256": "c93d5f273bfa581c1d9789206741efd33f394d7a619cf4d17a9b419755392e31"
+    },
+    "bam": {
+      "filename": "controlled.sorted.bam",
+      "sha256": "bedf18770a4c4405b750a9af23402f5dffdc560165098b2ea26480b536c10e32"
+    }
+  },
+  "depth": {
+    "positions": 2000,
+    "mean_depth": 2.5,
+    "median_depth": 0.0,
+    "covered_positions": 545,
+    "covered_percent": 27.25,
+    "positions_ge_minimum": 455,
+    "percent_ge_minimum": 22.75,
+    "high_depth_threshold": 50,
+    "callable_positions": 455,
+    "callable_percent": 22.75,
+    "maximum_depth": 10
+  },
+  "counts": {
+    "normalized_candidates": 5,
+    "accepted_candidates": 4,
+    "rejected_candidates": 1
+  },
+  "outputs": {
+    "raw/candidates.bcf": "68efef80026aac602a616c2abcf8bfdb4ab514736f0383b817e812976329d218",
+    "raw/candidates.bcf.csi": "a88ed75a84da0233666705ae550b10c16c1f7a877779e88705b4999012e205b5",
+    "vcf/candidates.normalized.vcf.gz": "102f7274482bf6d87dfcf0ed342bb0502283f07dfa2f07d046eef4e9f8f616c1",
+    "vcf/candidates.normalized.vcf.gz.csi": "0d54c8fc402fdb3aab21b70045fa28f2ec69345493b38359ef0ba3ddd425c91d",
+    "vcf/evaluated.vcf.gz": "670b9f662d99abedf2eb380774dafe1da52a20e5b49af3a76ed01fa0803601ca",
+    "vcf/evaluated.vcf.gz.csi": "c3fd4bfd139c3f2ff16b12029f162e642749ea4c3bf2490f9c946e273db445d4",
+    "vcf/accepted.vcf.gz": "96de45edf220225fc2a1cf5379b572a63335c6506999cd1b1838852c056922ce",
+    "vcf/accepted.vcf.gz.csi": "8fd3ae90fb37d0089ea2006d3cddb747da1aaf8a525651ec267ca7b0d3c0e592",
+    "vcf/rejected.vcf.gz": "136fdc4750cf25573843e5d180ca7e117eedb595669f7b6023a117588934c9d1",
+    "vcf/rejected.vcf.gz.csi": "0d4f7cd85bc916a316553231440bae8017370653c7518aa26500b57f91bf9103",
+    "dashboard/variant_evidence_dashboard.png": "5161c5c85cd52b01bcd864e8835e2aefc9efdae1c1c199e82d810da68207b37f"
+  },
+  "commands": {
+    "input-quickcheck": [
+      "samtools",
+      "quickcheck",
+      "-v",
+      "input.bam"
+    ],
+    "input-header": [
+      "samtools",
+      "view",
+      "--no-PG",
+      "-H",
+      "input.bam"
+    ],
+    "reference-index": [
+      "samtools",
+      "faidx",
+      "intermediate/reference.fasta"
+    ],
+    "depth": [
+      "samtools",
+      "depth",
+      "-aa",
+      "-q",
+      "20",
+      "-Q",
+      "20",
+      "input.bam"
+    ],
+    "mpileup": [
+      "bcftools",
+      "mpileup",
+      "--no-version",
+      "--threads",
+      "1",
+      "--fasta-ref",
+      "intermediate/reference.fasta",
+      "--min-MQ",
+      "20",
+      "--min-BQ",
+      "20",
+      "--max-depth",
+      "1000000",
+      "--annotate",
+      "FORMAT/AD,FORMAT/ADF,FORMAT/ADR,FORMAT/DP",
+      "--output-type",
+      "u",
+      "--output",
+      "./intermediate/pileup.bcf",
+      "input.bam"
+    ],
+    "call": [
+      "bcftools",
+      "call",
+      "--no-version",
+      "--threads",
+      "1",
+      "--multiallelic-caller",
+      "--variants-only",
+      "--keep-alts",
+      "--ploidy",
+      "1",
+      "--output-type",
+      "b",
+      "--output",
+      "./intermediate/called.bcf",
+      "./intermediate/pileup.bcf"
+    ],
+    "remove-unused-mq": [
+      "bcftools",
+      "annotate",
+      "--no-version",
+      "--remove",
+      "INFO/MQ",
+      "--output-type",
+      "b",
+      "--output",
+      "./raw/candidates.bcf",
+      "./intermediate/called.bcf"
+    ],
+    "raw-index": [
+      "bcftools",
+      "index",
+      "--force",
+      "--csi",
+      "./raw/candidates.bcf"
+    ],
+    "normalize": [
+      "bcftools",
+      "norm",
+      "--no-version",
+      "--threads",
+      "1",
+      "--fasta-ref",
+      "intermediate/reference.fasta",
+      "--multiallelics",
+      "-any",
+      "--rm-dup",
+      "exact",
+      "--output-type",
+      "z",
+      "--output",
+      "./vcf/candidates.normalized.vcf.gz",
+      "./raw/candidates.bcf"
+    ],
+    "normalized-index": [
+      "bcftools",
+      "index",
+      "--force",
+      "--csi",
+      "./vcf/candidates.normalized.vcf.gz"
+    ],
+    "compress-evaluated": [
+      "bcftools",
+      "view",
+      "--no-version",
+      "--output-type",
+      "z",
+      "--output",
+      "./vcf/evaluated.vcf.gz",
+      "./intermediate/evaluated.vcf"
+    ],
+    "index-evaluated": [
+      "bcftools",
+      "index",
+      "--force",
+      "--csi",
+      "./vcf/evaluated.vcf.gz"
+    ],
+    "stats-evaluated": [
+      "bcftools",
+      "stats",
+      "./vcf/evaluated.vcf.gz"
+    ],
+    "compress-accepted": [
+      "bcftools",
+      "view",
+      "--no-version",
+      "--output-type",
+      "z",
+      "--output",
+      "./vcf/accepted.vcf.gz",
+      "./intermediate/accepted.vcf"
+    ],
+    "index-accepted": [
+      "bcftools",
+      "index",
+      "--force",
+      "--csi",
+      "./vcf/accepted.vcf.gz"
+    ],
+    "stats-accepted": [
+      "bcftools",
+      "stats",
+      "./vcf/accepted.vcf.gz"
+    ],
+    "compress-rejected": [
+      "bcftools",
+      "view",
+      "--no-version",
+      "--output-type",
+      "z",
+      "--output",
+      "./vcf/rejected.vcf.gz",
+      "./intermediate/rejected.vcf"
+    ],
+    "index-rejected": [
+      "bcftools",
+      "index",
+      "--force",
+      "--csi",
+      "./vcf/rejected.vcf.gz"
+    ],
+    "stats-rejected": [
+      "bcftools",
+      "stats",
+      "./vcf/rejected.vcf.gz"
+    ]
+  },
+  "partition_rule": "Every normalized candidate appears exactly once in accepted or rejected output."
+}

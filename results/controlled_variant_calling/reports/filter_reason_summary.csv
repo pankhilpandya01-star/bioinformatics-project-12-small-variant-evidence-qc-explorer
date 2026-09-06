@@ -1,0 +1,8 @@
+filter_reason,candidates
+PASS,4
+LowQual,1
+LowDepth,0
+HighDepth,0
+LowAltDepth,0
+LowAltFraction,1
+OneStrandOnly,1

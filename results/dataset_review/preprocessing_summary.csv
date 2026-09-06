@@ -1,0 +1,11 @@
+metric,value,unit
+input_pairs,5094925,pairs
+input_bases,1018985000,bases
+quality_trimmed_bases,629103,bases
+r1_adapter_matches,39050,reads
+r2_adapter_matches,38794,reads
+adapter_trimmed_bases,1576795,bases
+too_short_pairs,12716,pairs
+retained_pairs,5082209,pairs
+retained_pair_percent,99.750420,percent
+retained_bases,1015135553,bases

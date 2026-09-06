@@ -1,0 +1,4 @@
+artifact,role,source_accession,source_url,records,bases,sha256,retrieved,acquisition
+SRR13921545_1.fastq,full raw R1,SRR13921545,https://www.ncbi.nlm.nih.gov/sra/SRX10301019,5094925,509492500,2ef045ec96d1576fb33a58f5c53cadaf3e76ee7c3f86732b77bc9052b219bdb3,2026-09-05,SRA Toolkit 3.4.1 fastq-dump
+SRR13921545_2.fastq,full raw R2,SRR13921545,https://www.ncbi.nlm.nih.gov/sra/SRX10301019,5094925,509492500,72439b12192327391cfca0f1c775c8b03c1ac8966e76d9c26017cb8c5d0435b2,2026-09-05,SRA Toolkit 3.4.1 fastq-dump
+GCF_000005845.2_ASM584v2_genomic.fna,MG1655 RefSeq chromosome,GCF_000005845.2,https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000005845.2/,1,4641652,53bb6a51b6e92139ced1e38f74b7938781027c52200922ff03718c2237d23bb4,2026-09-05,verified Project 11 input

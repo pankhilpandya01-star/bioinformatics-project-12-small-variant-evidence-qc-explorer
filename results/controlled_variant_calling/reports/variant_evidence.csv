@@ -1,0 +1,6 @@
+chrom,position,ref,alt,variant_key,variant_type,quality,depth,ref_depth,alt_depth,alt_fraction,alt_forward_depth,alt_reverse_depth,genotype,status,filter_reasons
+control,300,T,G,control:300:T:G,SNP,225.417,10,0,10,1.000000,5,5,1,accepted,PASS
+control,700,T,A,control:700:T:A,SNP,225.417,10,0,10,1.000000,5,5,1,accepted,PASS
+control,1000,T,TGG,control:1000:T:TGG,insertion,225.417,10,0,10,1.000000,5,5,1,accepted,PASS
+control,1300,TAC,T,control:1300:TAC:T,deletion,225.417,10,0,10,1.000000,5,5,1,accepted,PASS
+control,1600,T,C,control:1600:T:C,SNP,9.03488,10,4,6,0.600000,6,0,1,rejected,LowQual;LowAltFraction;OneStrandOnly

@@ -1,0 +1,5 @@
+input_pairs,mean_depth,covered_positions_percent,positions_ge_10_percent,mean_depth_gate,positions_ge_10_gate,status
+5000,0.187565,14.526143,0.000000,15.0,90.0,fail
+500000,18.840328,90.588049,84.820835,15.0,90.0,fail
+1000000,37.692146,90.747885,89.931925,15.0,90.0,fail
+5094925,191.297470,91.067361,90.544940,15.0,90.0,pass

@@ -1,0 +1,13 @@
+name: small-variant-explorer
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - cutadapt=5.2
+  - bowtie2=2.5.5
+  - samtools=1.24
+  - bcftools=1.24
+  - sra-tools=3.4.1
+  - matplotlib=3.11.1
+  - pip

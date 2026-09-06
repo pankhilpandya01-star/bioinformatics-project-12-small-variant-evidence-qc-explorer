@@ -1,0 +1,6 @@
+name,chrom,position,ref,alt,expected_status
+snp_one,control,300,T,G,accepted
+snp_two,control,700,T,A,accepted
+insertion,control,1000,T,TGG,accepted
+deletion,control,1300,TAC,T,accepted
+weak_error,control,1600,T,C,rejected

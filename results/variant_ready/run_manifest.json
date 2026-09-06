@@ -1,0 +1,83 @@
+{
+  "workflow_version": "0.1.0",
+  "milestone": "variant_ready_bam",
+  "tools": {
+    "python": "3.12.14",
+    "samtools": "1.24"
+  },
+  "parameters": {
+    "sample_id": "SRR13921545",
+    "ploidy": 1,
+    "minimum_mapq": 20,
+    "minimum_base_quality": 20,
+    "minimum_depth": 10,
+    "minimum_alt_depth": 5,
+    "minimum_alt_fraction": 0.8,
+    "minimum_variant_quality": 30.0,
+    "minimum_alt_strand_depth": 1,
+    "maximum_depth_factor": 3.0,
+    "threads": 1
+  },
+  "inputs": {
+    "reference": {
+      "filename": "reference.fasta",
+      "sha256": "53bb6a51b6e92139ced1e38f74b7938781027c52200922ff03718c2237d23bb4"
+    },
+    "bam": {
+      "filename": "trimmed_paired.sorted.bam",
+      "sha256": "5a878cbf329b9dec83a326091d38c043ef199d338b7749244b6d2eb05e934077"
+    }
+  },
+  "counts": {
+    "input_records": 10164418,
+    "input_duplicate_records": 0,
+    "output_records": 10164418,
+    "duplicate_records": 1276720,
+    "nonduplicate_records": 8887698
+  },
+  "depth": {
+    "positions": 4641652,
+    "mean_depth": 165.58744451328965,
+    "median_depth": 171.0,
+    "covered_positions": 4226661,
+    "covered_percent": 91.05941160604026,
+    "positions_ge_minimum": 4200885,
+    "percent_ge_minimum": 90.50409207756204,
+    "high_depth_threshold": 513,
+    "callable_positions": 4199245,
+    "callable_percent": 90.46875982947451,
+    "maximum_depth": 1223
+  },
+  "dataset_gate": {
+    "minimum_mean_depth": 15.0,
+    "minimum_percent_positions_at_minimum_depth": 90.0,
+    "passed": true
+  },
+  "outputs": {
+    "variant_ready_bam": "bam/variant_ready.sorted.bam",
+    "variant_ready_bai": "bam/variant_ready.sorted.bam.bai",
+    "bam_sha256": "4a8174d9cc609191050bac8176e5f67a71ce037e25e33b49bbb7bec458d8951b",
+    "bai_sha256": "a5f0d2c4528d88a6d206762cf2687749341f5614b7345d7b612b12e8fb6b7b15"
+  },
+  "commands": {
+    "input-quickcheck": ["samtools", "quickcheck", "-v", "input.bam"],
+    "input-header": ["samtools", "view", "--no-PG", "-H", "input.bam"],
+    "input-record-count": ["samtools", "view", "-c", "input.bam"],
+    "input-duplicate-count": ["samtools", "view", "-c", "-f", "1024", "input.bam"],
+    "collate": ["samtools", "collate", "--no-PG", "-@", "1", "-o", "./intermediate/name_collated.bam", "input.bam"],
+    "fixmate": ["samtools", "fixmate", "--no-PG", "-@", "1", "-m", "./intermediate/name_collated.bam", "./intermediate/fixmate.bam"],
+    "coordinate-sort": ["samtools", "sort", "--no-PG", "-@", "1", "-o", "./intermediate/position_sorted.bam", "./intermediate/fixmate.bam"],
+    "markdup": ["samtools", "markdup", "--no-PG", "-@", "1", "-c", "-s", "--json", "-f", "./reports/markdup.json", "./intermediate/position_sorted.bam", "./intermediate/marked.bam"],
+    "reheader": ["samtools", "reheader", "-P", "./intermediate/sanitized_header.sam", "./intermediate/marked.bam"],
+    "index": ["samtools", "index", "-@", "1", "./bam/variant_ready.sorted.bam"],
+    "output-quickcheck": ["samtools", "quickcheck", "-v", "./bam/variant_ready.sorted.bam"],
+    "output-record-count": ["samtools", "view", "-c", "./bam/variant_ready.sorted.bam"],
+    "output-duplicate-count": ["samtools", "view", "-c", "-f", "1024", "./bam/variant_ready.sorted.bam"],
+    "flagstat": ["samtools", "flagstat", "-@", "1", "-O", "json", "./bam/variant_ready.sorted.bam"],
+    "stats": ["samtools", "stats", "-@", "1", "./bam/variant_ready.sorted.bam"],
+    "coverage": ["samtools", "coverage", "./bam/variant_ready.sorted.bam"],
+    "idxstats": ["samtools", "idxstats", "./bam/variant_ready.sorted.bam"],
+    "depth": ["samtools", "depth", "-aa", "-q", "20", "-Q", "20", "./bam/variant_ready.sorted.bam"]
+  },
+  "duplicate_policy": "Records are marked with the DUP flag and preserved; they are excluded by default from depth evidence."
+}

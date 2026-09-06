@@ -1,0 +1,8 @@
+filter_reason,candidates
+PASS,30973
+LowQual,341
+LowDepth,1000
+HighDepth,0
+LowAltDepth,1081
+LowAltFraction,793
+OneStrandOnly,1859

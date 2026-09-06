@@ -1,0 +1,12 @@
+metric,value,unit
+input_records,10164418,records
+output_records,10164418,records
+duplicate_records,1276720,records
+duplicate_record_percent,12.560680,percent
+nonduplicate_records,8887698,records
+markdup_examined_records,9400402,records
+markdup_excluded_records,764016,records
+estimated_library_size,16321154,fragments
+preduplicate_mean_depth,191.297470,depth
+postduplicate_mean_depth,165.587445,depth
+mean_depth_reduction_percent,13.439815,percent

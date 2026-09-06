@@ -1,0 +1,29 @@
+# Large authentic inputs and native alignment artifacts stay local.
+data/local/
+results/local/
+*.bam
+*.bam.bai
+*.bcf
+*.bcf.csi
+*.fastq
+*.fastq.gz
+*.depth.tsv
+*.depth.tsv.gz
+
+# Python and test caches.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Local environments and editor files.
+.venv/
+.env
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store

@@ -1,0 +1,53 @@
+{
+  "milestone": "dataset_review",
+  "status": "pass",
+  "selected_input_pairs": 5094925,
+  "tools": {
+    "python": "3.12.14",
+    "cutadapt": "5.2",
+    "bowtie2": "2.5.5",
+    "samtools": "1.24",
+    "sra_toolkit": "3.4.1"
+  },
+  "gate": {
+    "minimum_mean_depth": 15.0,
+    "minimum_percent_positions_depth_10": 90.0,
+    "minimum_mapping_quality": 20,
+    "minimum_base_quality": 20,
+    "observed_mean_depth": 191.297470,
+    "observed_percent_positions_depth_10": 90.544940
+  },
+  "attempts": [
+    {"input_pairs": 5000, "mean_depth": 0.187565, "percent_positions_depth_10": 0.0, "status": "fail"},
+    {"input_pairs": 500000, "mean_depth": 18.840328, "percent_positions_depth_10": 84.820835, "status": "fail"},
+    {"input_pairs": 1000000, "mean_depth": 37.692146, "percent_positions_depth_10": 89.931925, "status": "fail"},
+    {"input_pairs": 5094925, "mean_depth": 191.297470, "percent_positions_depth_10": 90.544940, "status": "pass"}
+  ],
+  "checksums": {
+    "raw_r1_sha256": "2ef045ec96d1576fb33a58f5c53cadaf3e76ee7c3f86732b77bc9052b219bdb3",
+    "raw_r2_sha256": "72439b12192327391cfca0f1c775c8b03c1ac8966e76d9c26017cb8c5d0435b2",
+    "reference_sha256": "53bb6a51b6e92139ced1e38f74b7938781027c52200922ff03718c2237d23bb4",
+    "trimmed_bam_sha256": "5a878cbf329b9dec83a326091d38c043ef199d338b7749244b6d2eb05e934077",
+    "trimmed_bai_sha256": "908c76c5bbcc59934d1117038ffdfd8185562fdd1489efd0e6a64e065e7f65b2"
+  },
+  "counts": {
+    "input_pairs": 5094925,
+    "retained_pairs": 5082209,
+    "aligned_input_records": 10164418,
+    "mapped_records": 9400402,
+    "proper_pairs": 4591358
+  },
+  "commands": {
+    "acquisition": "fastq-dump --split-files --skip-technical SRR13921545",
+    "quality_trim": "python -m cutadapt --cores 1 --quality-cutoff 20 --json reports/01_quality.cutadapt.json --output intermediate/01_quality_trimmed.R1.fastq --paired-output intermediate/01_quality_trimmed.R2.fastq raw.R1.fastq raw.R2.fastq",
+    "adapter_trim": "python -m cutadapt --cores 1 --adapter AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT --overlap 8 --error-rate 0.1 --json reports/02_adapter.cutadapt.json --output intermediate/02_adapter_trimmed.R1.fastq --paired-output intermediate/02_adapter_trimmed.R2.fastq intermediate/01_quality_trimmed.R1.fastq intermediate/01_quality_trimmed.R2.fastq",
+    "length_filter": "python -m cutadapt --cores 1 --minimum-length 75 --pair-filter any --too-short-output rejected/rejected_pairs.R1.fastq --too-short-paired-output rejected/rejected_pairs.R2.fastq --json reports/03_length_filter.cutadapt.json --output retained/retained_pairs.R1.fastq --paired-output retained/retained_pairs.R2.fastq intermediate/02_adapter_trimmed.R1.fastq intermediate/02_adapter_trimmed.R2.fastq",
+    "alignment": "bowtie2 --end-to-end --very-sensitive --seed 0 --reorder -p 1 --fr -I 0 -X 1000 --rg-id SRR13921545 --rg SM:SRR13921545 --rg LB:EK02-dnaseq --rg PL:ILLUMINA -x index/reference -1 retained/retained_pairs.R1.fastq -2 retained/retained_pairs.R2.fastq | samtools view --no-PG -b - | samtools sort --no-PG -@ 1 -o trimmed_paired.sorted.bam -",
+    "depth_gate": "samtools depth -aa -q 20 -Q 20 trimmed_paired.sorted.bam | python scripts/summarize_depth.py"
+  },
+  "notes": {
+    "prefix_validation": "The first 5,000 R1 and R2 records exactly match the Project 11 SHA-256 checksums.",
+    "large_artifacts": "FASTQ, BAM, BAI, and position-level depth artifacts remain local and are not committed.",
+    "duplicate_marking": "Duplicate marking and the post-duplicate depth check are deferred to Milestone 2."
+  }
+}

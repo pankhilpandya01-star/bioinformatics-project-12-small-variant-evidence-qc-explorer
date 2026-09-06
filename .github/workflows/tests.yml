@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MPLBACKEND: Agg
+      MPLCONFIGDIR: /tmp/matplotlib
+      PYTHONHASHSEED: "0"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Create pinned Bioconda environment
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-file: environment.yml
+          cache-environment: true
+          post-cleanup: all
+
+      - name: Verify tools and install project
+        shell: micromamba-shell {0}
+        run: |
+          python --version
+          python -m cutadapt --version
+          bowtie2 --version
+          samtools --version
+          bcftools --version
+          fastq-dump --version
+          python -m pip install --no-deps .
+
+      - name: Run test suite
+        shell: micromamba-shell {0}
+        run: python -m unittest discover -s tests -v

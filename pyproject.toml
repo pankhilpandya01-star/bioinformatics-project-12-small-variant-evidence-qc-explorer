@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "small-variant-explorer"
+version = "0.1.0"
+description = "Small-variant calling and evidence quality control"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = ["matplotlib==3.11.1"]
+keywords = ["bioinformatics", "variant-calling", "vcf", "quality-control"]
+
+[project.scripts]
+small-variant-explorer = "small_variant_explorer.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+Repository = "https://github.com/pankhilpandya01-star/bioinformatics-project-12-small-variant-evidence-qc-explorer"
+Documentation = "https://github.com/pankhilpandya01-star/bioinformatics-project-12-small-variant-evidence-qc-explorer#readme"
