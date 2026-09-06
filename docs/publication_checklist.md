@@ -27,13 +27,12 @@
 - [x] The exact 176-file publication set was reviewed and committed locally;
   it contains no unignored native data files or files over 10 MB.
 
-## Requires publication authorization
+## Publication status
 
-- [ ] Create the GitHub repository with the intended public name.
-- [ ] Push the repository.
-- [ ] Confirm the first GitHub Actions run passes on Python 3.12.
-- [ ] Verify the README dashboard, badges, and internal links on GitHub.
+- [x] Create the GitHub repository with the intended public name.
+- [x] Push the repository.
+- [x] Confirm the first GitHub Actions run passes on Python 3.12.
+- [x] Verify the README dashboard, badges, and internal links on GitHub.
 - [ ] Add or update the portfolio index and prepare the Project 12 post.
 
-No repository creation, commit, push, or external publication is part of the
-completed local review.
+The final remaining item is a separate portfolio and social-posting step.
